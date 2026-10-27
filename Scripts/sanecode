@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+command="${1:-open}"
+target="${2:-.}"
+
+case "$command" in
+  "."|"open")
+    open -a "SaneCode" "$target"
+    ;;
+  "run")
+    prompt="${*:2}"
+    if [[ -z "$prompt" ]]; then
+      echo "Usage: sanecode run \"task prompt\""
+      exit 64
+    fi
+    open -a "SaneCode" .
+    printf "%s" "$prompt" | pbcopy
+    echo "Opened SaneCode and copied the prompt to the clipboard."
+    ;;
+  *)
+    open -a "SaneCode" "$command"
+    ;;
+esac
